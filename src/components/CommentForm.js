@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createCommentIsPending } from "../features/comments/commentsSlice";
+import { postCommentForArticleId } from "../features/comments/commentsSlice";
 
 export default function CommentForm({ articleId }) {
   const dispatch = useDispatch();
   const [comment, setComment] = useState("");
 
-  // D
+  const isCreatePending = useSelector(createCommentIsPending);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // d
+    dispatch(
+      postCommentForArticleId({ articleId: articleId, comment: comment })
+    );
     setComment("");
   };
 
@@ -26,7 +29,9 @@ export default function CommentForm({ articleId }) {
           onChange={(e) => setComment(e.currentTarget.value)}
           type="text"
         />
-        <button className="comment-button">Submit</button>
+        <button className="comment-button" disable={isCreatePending}>
+          Submit
+        </button>
       </div>
     </form>
   );
