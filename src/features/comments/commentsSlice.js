@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-// Create loadCommentsForArticleId here.
 export const loadCommentsForArticleId = createAsyncThunk(
   "comments/fetchAllComments",
   async (id) => {
@@ -15,12 +14,10 @@ export const loadCommentsForArticleId = createAsyncThunk(
 export const commentsSlice = createSlice({
   name: "comments",
   initialState: {
-    // Add initial state properties here.
     byArticleId: {},
     isLoadingComments: false,
     failedToLoadComments: false,
   },
-  // Add extraReducers here.
   extraReducers: {
     [loadCommentsForArticleId.pending]: (state, action) => {
       state.isLoadingComments = true;
