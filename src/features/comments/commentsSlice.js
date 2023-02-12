@@ -10,6 +10,18 @@ export const loadCommentsForArticleId = createAsyncThunk(
 );
 
 // Create postCommentForArticleId here.
+export const postCommentForArticleId = createAsyncThunk(
+  "comments/postComment",
+  async ({ articleId, comment }) => {
+    const requestBody = JSON.stringify({ comment: comment });
+    const response = await fetch(`api/articles/${articleId}/comments`, {
+      method: "POST",
+      body: requestBody,
+    });
+    const json = await response.json();
+    return json;
+  }
+);
 
 export const commentsSlice = createSlice({
   name: "comments",
@@ -17,6 +29,8 @@ export const commentsSlice = createSlice({
     byArticleId: {},
     isLoadingComments: false,
     failedToLoadComments: false,
+    createCommentIsPending: false,
+    failedToCreateComment: false,
   },
   extraReducers: {
     [loadCommentsForArticleId.pending]: (state, action) => {
@@ -38,23 +52,23 @@ export const commentsSlice = createSlice({
     },
 
     // postCommmentForArticleId
-    // [postCommentForArticleId.pending]: (state, action) => {
-    //   state.createCommentIsPending = true;
-    //   state.failedToCreateComment = false;
-    // },
+    [postCommentForArticleId.pending]: (state, action) => {
+      state.createCommentIsPending = true;
+      state.failedToCreateComment = false;
+    },
 
-    // [postCommentForArticleId.fulfilled]: (state, action) => {
-    //   const articleId = action.payload.articleId;
-    //   state.byArticleId[articleId].push(action.payload);
+    [postCommentForArticleId.fulfilled]: (state, action) => {
+      const articleId = action.payload.articleId;
+      state.byArticleId[articleId].push(action.payload);
 
-    //   state.createCommentIsPending = false;
-    //   state.failedToCreateComment = false;
-    // },
+      state.createCommentIsPending = false;
+      state.failedToCreateComment = false;
+    },
 
-    // [postCommentForArticleId.rejected]: (state, action) => {
-    //   state.createCommentIsPending = false;
-    //   state.failedToCreateComment = true;
-    // },
+    [postCommentForArticleId.rejected]: (state, action) => {
+      state.createCommentIsPending = false;
+      state.failedToCreateComment = true;
+    },
   },
 });
 
