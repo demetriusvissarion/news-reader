@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+// import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCurrentArticle,
@@ -7,7 +7,7 @@ import {
 import FullArticle from "../../components/FullArticle";
 
 const CurrentArticle = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const article = useSelector(selectCurrentArticle);
   const currentArticleIsLoading = useSelector(isLoadingCurrentArticle);
 
